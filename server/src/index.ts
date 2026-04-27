@@ -15,8 +15,26 @@ const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+interface EntityField {
+  key: string;
+  label?: string;
+  required?: boolean;
+}
+
+interface Entity {
+  name: string;
+  label?: string;
+  fields?: EntityField[];
+}
+
+interface AppConfig {
+  database?: {
+    entities?: Entity[];
+  };
+}
+
 interface AuthenticatedRequest extends Request {
-  appConfig?: any;
+  appConfig?: AppConfig;
 }
 
 // Middleware to verify user and get app config
@@ -33,7 +51,7 @@ const getAppConfig = async (req: AuthenticatedRequest, res: Response, next: Next
     return res.status(404).json({ error: 'App not found' });
   }
 
-  req.appConfig = appData.normalized_config || appData.config;
+  req.appConfig = (appData.normalized_config || appData.config) as AppConfig;
   next();
 };
 
@@ -55,7 +73,7 @@ app.get('/api/dyn/:appId/:entity', getAppConfig, async (req: AuthenticatedReques
 app.post('/api/dyn/:appId/:entity', getAppConfig, async (req: AuthenticatedRequest, res: Response) => {
   const { appId, entity: entityName } = req.params;
   const config = req.appConfig;
-  const entity = config.database?.entities?.find((e: any) => e.name === entityName);
+  const entity = config?.database?.entities?.find((e: Entity) => e.name === entityName);
 
   if (!entity) return res.status(400).json({ error: 'Entity not defined in config' });
 
