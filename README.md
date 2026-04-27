@@ -22,18 +22,21 @@ App Weaver is a powerful, low-code platform that converts structured JSON config
 ## 🏗️ Architecture
 
 App Weaver follows a **Metadata-Driven Architecture**:
-1.  **Config Definition**: The user defines the app's structure (Entities, Fields, Views, Auth) in a central JSON object.
-2.  **Normalization**: The `config-forge` layer validates and repairs the JSON to ensure runtime stability.
-3.  **Dynamic Rendering**: React components map the configuration to specific UI layouts.
-4.  **Backend Proxy**: The Node.js engine receives requests, validates data against the schema metadata, and interacts with the database.
+
+1. **Config Definition**: The user defines the app's structure (Entities, Fields, Views, Auth) in a central JSON object.
+2. **Normalization**: The `config-forge` layer validates and repairs the JSON to ensure runtime stability.
+3. **Dynamic Rendering**: React components map the configuration to specific UI layouts.
+4. **Backend Proxy**: The Node.js engine receives requests, validates data against the schema metadata, and interacts with the database.
 
 ## 🏃 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18+)
 - Supabase Account (for PostgreSQL and Auth)
 
 ### 1. Clone & Install
+
 ```bash
 # Install frontend dependencies
 npm install
@@ -44,15 +47,18 @@ npm install
 ```
 
 ### 2. Configuration
+
 Create a `.env` file in the root and in the `server/` directory:
 
 **Root `.env`**:
+
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 **`server/.env`**:
+
 ```env
 SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
@@ -60,6 +66,7 @@ PORT=3001
 ```
 
 ### 3. Run Locally
+
 ```bash
 # Start backend engine (from /server)
 npm run dev
@@ -69,4 +76,5 @@ npm run dev
 ```
 
 ## 📄 License
+
 MIT

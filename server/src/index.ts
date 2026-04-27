@@ -1,8 +1,7 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
-import { z } from 'zod';
 
 dotenv.config();
 
@@ -16,8 +15,12 @@ const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+interface AuthenticatedRequest extends Request {
+  appConfig?: any;
+}
+
 // Middleware to verify user and get app config
-const getAppConfig = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const getAppConfig = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { appId } = req.params;
   
   const { data: appData, error } = await supabase
@@ -30,12 +33,12 @@ const getAppConfig = async (req: express.Request, res: express.Response, next: e
     return res.status(404).json({ error: 'App not found' });
   }
 
-  (req as any).appConfig = appData.normalized_config || appData.config;
+  req.appConfig = appData.normalized_config || appData.config;
   next();
 };
 
 // Dynamic CRUD Endpoints
-app.get('/api/dyn/:appId/:entity', getAppConfig, async (req: any, res: any) => {
+app.get('/api/dyn/:appId/:entity', getAppConfig, async (req: AuthenticatedRequest, res: Response) => {
   const { appId, entity } = req.params;
   
   const { data, error } = await supabase
@@ -49,7 +52,7 @@ app.get('/api/dyn/:appId/:entity', getAppConfig, async (req: any, res: any) => {
   res.json(data);
 });
 
-app.post('/api/dyn/:appId/:entity', getAppConfig, async (req: any, res: any) => {
+app.post('/api/dyn/:appId/:entity', getAppConfig, async (req: AuthenticatedRequest, res: Response) => {
   const { appId, entity: entityName } = req.params;
   const config = req.appConfig;
   const entity = config.database?.entities?.find((e: any) => e.name === entityName);
@@ -78,7 +81,7 @@ app.post('/api/dyn/:appId/:entity', getAppConfig, async (req: any, res: any) => 
       app_id: appId,
       entity: entityName,
       data: recordData,
-      user_id: req.headers['x-user-id'] // In a real app, this would be from auth middleware
+      user_id: req.headers['x-user-id']
     })
     .select()
     .single();
@@ -90,7 +93,8 @@ app.post('/api/dyn/:appId/:entity', getAppConfig, async (req: any, res: any) => 
     app_id: appId,
     title: 'New Record Created',
     body: `A new ${entity.label || entityName} was added via the dynamic API.`,
-    event_type: 'record.created'
+    event_type: 'record.created',
+    user_id: req.headers['x-user-id']
   });
 
   res.status(201).json(data);
