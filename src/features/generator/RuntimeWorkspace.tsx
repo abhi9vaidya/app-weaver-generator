@@ -10,7 +10,7 @@ type GeneratedApp = { id: string; name: string; slug: string; config: AppConfig;
 type AppRecord = { id: string; entity: string; data: Record<string, unknown>; validation_errors: unknown[]; created_at: string };
 type Notice = { id: string; title: string; body: string | null; event_type: string; read_at: string | null; created_at: string };
 
-const API_BASE = "http://localhost:3001/api/dyn";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api/dyn";
 
 function safeJsonParse(value: string) {
   try { return { value: JSON.parse(value), error: "" }; } catch (error) { return { value: null, error: error instanceof Error ? error.message : "Invalid JSON" }; }
