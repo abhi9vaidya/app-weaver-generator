@@ -400,7 +400,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
               </div>
               
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="w-full min-w-max text-left text-sm">
                   <thead className="bg-muted/30">
                     <tr>
                       {entity?.fields?.map((f) => (
