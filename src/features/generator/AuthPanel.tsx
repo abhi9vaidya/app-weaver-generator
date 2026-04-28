@@ -62,9 +62,9 @@ export function AuthPanel({ config }: { config?: AuthConfig }) {
                 {config?.subtitle || "Dynamic UI, backend APIs, database-shaped records, CSV import, localization, and event notifications."}
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-3 text-sm">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {["Schema tolerant", "User scoped", "API driven"].map((item) => (
-                <div key={item} className="rounded-md border bg-card/70 p-3 font-semibold interactive-card">
+                <div key={item} className="rounded-md border bg-card/70 p-2 text-xs font-semibold interactive-card sm:p-3 sm:text-sm">
                   {item}
                 </div>
               ))}
