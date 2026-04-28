@@ -404,7 +404,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
                   <thead className="bg-muted/30">
                     <tr>
                       {entity?.fields?.map((f) => (
-                        <th key={f.key} className="px-6 py-4 font-black tracking-tight">{f.label}</th>
+                        <th key={f.key} className="whitespace-nowrap px-6 py-4 font-black tracking-tight">{f.label}</th>
                       ))}
                       <th className="px-6 py-4"></th>
                     </tr>
@@ -413,7 +413,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
                     {visibleRecords.length ? visibleRecords.map((r) => (
                       <tr key={r.id} className="group transition-colors hover:bg-muted/20">
                         {entity?.fields?.map((f) => (
-                          <td key={f.key} className="px-6 py-4 font-medium">
+                          <td key={f.key} className="whitespace-nowrap px-6 py-4 font-medium">
                             {f.type === "checkbox" 
                               ? (r.data?.[f.key] ? "✅" : "❌") 
                               : String(r.data?.[f.key] ?? "—")}
