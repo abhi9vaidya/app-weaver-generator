@@ -204,7 +204,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
   return (
     <main className="min-h-screen bg-hero runtime-grid pb-10">
       <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+        <div className="mx-auto flex max-w-[1600px] w-full items-center justify-between px-4 py-4 md:px-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-command shadow-crisp">
               <Code2 className="text-white" />
@@ -248,7 +248,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
         </div>
       )}
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:px-6 lg:grid-cols-[440px_1fr]">
+      <div className="mx-auto grid max-w-[1600px] w-full gap-6 px-4 py-6 md:px-6 lg:grid-cols-[440px_1fr]">
         {/* Left Column: Config & Meta */}
         <aside className="space-y-6">
           <section className="group overflow-hidden rounded-2xl border bg-panel shadow-soft transition-all hover:shadow-crisp">
@@ -400,7 +400,7 @@ export function RuntimeWorkspace({ user }: { user: User }) {
               </div>
               
               <div className="overflow-x-auto">
-                <table className="w-full min-w-max text-left text-sm">
+                <table className="w-full text-left text-sm">
                   <thead className="bg-muted/30">
                     <tr>
                       {entity?.fields?.map((f) => (
